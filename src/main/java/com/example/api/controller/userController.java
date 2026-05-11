@@ -5,12 +5,12 @@ import java.util.*;
 @RestController
 @RequestMapping("/users")
 public class userController {
-private List<String> usuarios = new ArrayList(
-        List.of("Alice", "Bob", "Smith")
-);
+private Map<Integer, String> usuarios = new HashMap();
+
+private int nextId = 0;
 
     @GetMapping
-    public List<String> list() {
+    public Map<Integer, String> list() {
         return usuarios;
     }
 
@@ -24,8 +24,8 @@ private List<String> usuarios = new ArrayList(
 
 
     @PostMapping()
-    public List<String> addUser(@RequestParam String name){
-        usuarios.add(name);
-        return usuarios;
-    };
+    public String addUser(@RequestParam String name){
+        usuarios.put(nextId++, name);
+        return "Usuario"+name+":"+(nextId-1) +" com sucesso";
+    }
 }
