@@ -11,7 +11,7 @@ public class User {
 
 
     //constructor
-    public User(int id, String nome, String email, String senhaHash, LocalDateTime criadoEm){
+    public User() {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -33,4 +33,20 @@ public class User {
         return this.senhaHash;
     }
 
+    //setters
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setNome(String nome){
+        this.nome = nome;
+    }
+    public void setEmail(String email){
+        this.email = email;
+    }
+    public void setSenhaHash(String senhaHash){
+        this.senhaHash = senhaHash;
+    }
+    public void setCriadoEm(LocalDateTime criadoEm){
+        this.criadoEm = criadoEm;
+    }
 }

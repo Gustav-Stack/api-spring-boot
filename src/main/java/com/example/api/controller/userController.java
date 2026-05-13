@@ -1,31 +1,44 @@
 package com.example.api.controller;
+
+
+import com.example.api.dto.CreateUserRequest;
+import com.example.api.dto.User;
+import com.example.api.dto.UserResponse;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 public class userController {
-private Map<Integer, String> usuarios = new HashMap();
-
-private int nextId = 0;
-
-    @GetMapping
-    public Map<Integer, String> list() {
-        return usuarios;
-    }
-
-    @GetMapping("{id}")
-    public String findById(@PathVariable  int id) {
-        if (id < 0 || id >= usuarios.size()) {
-            return "Usuário não encontrado";
-        }
-        return usuarios.get(id);
-    }
-
+    private List<User> banco = new ArrayList<>();
+    private int nextId = 1;
 
     @PostMapping()
-    public String addUser(@RequestParam String name){
-        usuarios.put(nextId++, name);
-        return "Usuario"+name+":"+(nextId-1) +" com sucesso";
+    public UserResponse criar(@RequestBody CreateUserRequest req){
+
+        User user = new User();
+
+        user.setId(nextId++);
+        user.setNome(req.getNome());
+        user.setEmail(req.getEmail());
+        user.setSenhaHash("hash_de_" + req.getSenha()); // simula hash
+        user.setCriadoEm(LocalDateTime.now());
+        banco.add(user);
+
+        return new UserResponse(user.getId(), user.getNome(), user.getEmail());
     }
+    @GetMapping
+    public List<UserResponse> listar() {
+        return banco.stream()
+                .map(u -> new UserResponse(u.getId(), u.getNome(), u.getEmail()))
+                .toList();
+    }
+
+
+
+
+
 }
