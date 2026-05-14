@@ -11,7 +11,7 @@ public class User {
 
 
     //constructor
-    public User() {
+    public User(int id, String nome, String email, String senhaHash, LocalDateTime criadoEm) {
         this.id = id;
         this.nome = nome;
         this.email = email;
